@@ -64,10 +64,10 @@ public class BoardView {
                 field.setText(cell.isEmpty() ? "" : String.valueOf(cell.getValue()));
                 field.setEditable(!cell.isFixed());
                 
+                field.getStyleClass().removeAll("cell-fixed", "cell-correct", "cell-incorrect");
+                
                 if (cell.isFixed()) {
                     field.getStyleClass().add("cell-fixed");
-                } else {
-                    field.getStyleClass().remove("cell-fixed");
                 }
                 
                 updateErrorStyle(r, c, cell.hasError());

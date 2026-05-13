@@ -2,6 +2,7 @@ package com.sudoku.controller;
 
 import com.sudoku.Main;
 import com.sudoku.model.Board;
+import java.util.ArrayList;
 import com.sudoku.model.Difficulty;
 import com.sudoku.model.SudokuValidator;
 import com.sudoku.service.SudokuGenerator;
@@ -41,6 +42,7 @@ public class GameController {
     @FXML private StackPane boardContainer;
     @FXML private Button hintButton;
     @FXML private Button helpButton;
+    @FXML private Label hintsLabel;
     @FXML private Label timerLabel;
     @FXML private Label difficultyLabel;
     @FXML private Label helpStatusLabel;
@@ -53,8 +55,10 @@ public class GameController {
     
     private Timeline timeline;
     private int secondsElapsed = 0;
+    private int hintsRemaining = 3;
     private Difficulty currentDifficulty;
     private boolean helpMode = false;
+    private boolean isAutoFilling = false;
 
     /**
      * Initializes the controller, sets up the board view and generator.
@@ -86,6 +90,7 @@ public class GameController {
         if (hintButton != null) hintButton.setDisable(isHardcore);
         if (helpButton != null) helpButton.setDisable(isHardcore);
         
+        this.hintsRemaining = isHardcore ? 0 : 3;
         updateStatusLabels();
         startTimer();
     }
@@ -135,7 +140,7 @@ public class GameController {
                 boardView.updateErrorStyle(row, col, false);
             }
             
-            if (board.isFull() && validator.isBoardValid(board)) {
+            if (!isAutoFilling && board.isFull() && validator.isBoardValid(board)) {
                 handleWin();
             }
         } catch (Exception e) {
@@ -209,31 +214,46 @@ public class GameController {
             helpStatusLabel.setText("AYUDA: " + (helpMode ? "ACTIVADA" : "DESACTIVADA"));
             helpStatusLabel.setStyle("-fx-text-fill: " + (helpMode ? "#a6e3a1" : "#f38ba8") + "; -fx-font-weight: bold;");
         }
+        if (hintsLabel != null) {
+            hintsLabel.setText("PISTAS: " + hintsRemaining);
+        }
     }
 
     private void handleWin() {
         stopTimer();
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("¡Victoria!");
-        alert.setHeaderText("Has completado el Sudoku");
-        alert.setContentText("Tiempo total: " + timerLabel.getText());
-        alert.showAndWait();
+        showResultOverlay(true);
     }
 
     @FXML
     private void handleHint() {
-        // Implementación de pista: busca una celda vacía y la llena correctamente
-        // usando el solver sobre una copia del tablero
+        if (hintsRemaining <= 0) return;
+
         Board solution = new Board(board.toIntArray());
         if (solver.solve(solution)) {
+            List<int[]> emptyCells = new ArrayList<>();
             for (int r = 0; r < Board.SIZE; r++) {
                 for (int c = 0; c < Board.SIZE; c++) {
                     if (board.getValue(r, c) == 0) {
-                        int correctVal = solution.getValue(r, c);
-                        board.setValue(r, c, correctVal);
-                        boardView.render(board);
-                        return;
+                        emptyCells.add(new int[]{r, c});
                     }
+                }
+            }
+
+            if (!emptyCells.isEmpty()) {
+                int[] picked = emptyCells.get(new java.util.Random().nextInt(emptyCells.size()));
+                int r = picked[0];
+                int c = picked[1];
+                int correctVal = solution.getValue(r, c);
+                
+                isAutoFilling = true;
+                board.setValue(r, c, correctVal);
+                boardView.render(board);
+                isAutoFilling = false;
+                
+                hintsRemaining--;
+                updateStatusLabels();
+                if (hintsRemaining <= 0) {
+                    hintButton.setDisable(true);
                 }
             }
         }
@@ -241,25 +261,88 @@ public class GameController {
 
     @FXML
     private void handleSolve() {
-        if (solver.solve(board)) {
-            boardView.render(board);
+        isAutoFilling = true;
+        int[][] onlyFixed = new int[Board.SIZE][Board.SIZE];
+        for(int r=0; r<Board.SIZE; r++) {
+            for(int c=0; c<Board.SIZE; c++) {
+                if(board.getCell(r, c).isFixed()) onlyFixed[r][c] = board.getValue(r, c);
+            }
+        }
+        Board solutionBoard = new Board(onlyFixed);
+        
+        if (solver.solve(solutionBoard)) {
+            int errorsCount = 0;
+            for (int r = 0; r < Board.SIZE; r++) {
+                for (int c = 0; c < Board.SIZE; c++) {
+                    int userVal = board.getValue(r, c);
+                    int correctVal = solutionBoard.getValue(r, c);
+                    TextField field = boardView.getTextFields()[r][c];
+                    
+                    if (userVal != 0) {
+                        if (userVal == correctVal) {
+                            field.getStyleClass().add("cell-correct");
+                        } else {
+                            field.getStyleClass().add("cell-incorrect");
+                            errorsCount++;
+                        }
+                    } else {
+                        // Casilla vaca: cuenta como fallo
+                        board.setValue(r, c, correctVal);
+                        field.setText(String.valueOf(correctVal));
+                        field.getStyleClass().add("cell-incorrect");
+                        errorsCount++;
+                    }
+                }
+            }
             stopTimer();
+            isAutoFilling = false;
+            showResultOverlay(errorsCount == 0);
+        } else {
+            isAutoFilling = false;
+        }
+    }
+
+    private StackPane currentResultOverlay;
+
+    private void showResultOverlay(boolean victory) {
+        try {
+            FXMLLoader loader = new FXMLLoader(Main.class.getResource("result-view.fxml"));
+            currentResultOverlay = loader.load();
+            
+            ResultController controller = loader.getController();
+            controller.setResult(victory, timerLabel.getText(), this);
+            
+            rootPane.getChildren().add(currentResultOverlay);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void closeResultOverlay() {
+        if (currentResultOverlay != null) {
+            rootPane.getChildren().remove(currentResultOverlay);
+            currentResultOverlay = null;
         }
     }
 
     @FXML
-    private void handleReset() {
+    public void handleReset() {
         initGame(currentDifficulty);
         secondsElapsed = 0;
     }
 
     @FXML
-    private void handleBackToMenu(ActionEvent event) throws IOException {
+    public void handleBackToMenu(ActionEvent event) throws IOException {
         stopTimer();
         
         FXMLLoader loader = new FXMLLoader(Main.class.getResource("menu-view.fxml"));
         Scene scene = new Scene(loader.load());
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        Stage stage;
+        if (event != null) {
+            stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        } else {
+            stage = (Stage) rootPane.getScene().getWindow();
+        }
         stage.setScene(scene);
         stage.sizeToScene();
         stage.centerOnScreen();

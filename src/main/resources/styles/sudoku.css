@@ -173,3 +173,10 @@
     -fx-background-color: #89b4fa;
     -fx-background-radius: 10;
 }
+.cell-correct {
+    -fx-text-fill: #a6e3a1 !important;
+}
+.cell-incorrect {
+    -fx-text-fill: #f38ba8 !important;
+    -fx-background-color: rgba(243, 139, 168, 0.1) !important;
+}
