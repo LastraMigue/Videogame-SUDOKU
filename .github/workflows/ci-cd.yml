@@ -1,0 +1,81 @@
+name: CI/CD Pipeline — Sudoku JavaFX
+
+on:
+  push:
+    branches: [ main, develop, 'feature/**', 'release/**', 'hotfix/**' ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  build-and-test:
+    name: Compilación, Tests y Cobertura
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout del repositorio
+        uses: actions/checkout@v4
+
+      - name: Configurar JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: maven
+
+      - name: Ejecutar tests unitarios con Maven
+        run: mvn -B test --no-transfer-progress
+
+      - name: Generar reporte de cobertura JaCoCo
+        run: mvn jacoco:report
+
+      - name: Verificar umbral de cobertura (80%)
+        run: mvn jacoco:check
+
+      - name: Subir artefacto de cobertura
+        uses: actions/upload-artifact@v4
+        with:
+          name: jacoco-report
+          path: target/site/jacoco/
+
+  generate-docs:
+    name: Generar Javadoc y Desplegar a Pages
+    runs-on: ubuntu-latest
+    needs: build-and-test
+    if: github.ref == 'refs/heads/develop'
+
+    permissions:
+      contents: write
+      pages: write
+      id-token: write
+
+    steps:
+      - name: Checkout del repositorio
+        uses: actions/checkout@v4
+
+      - name: Configurar JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: maven
+
+      - name: Generar Javadoc
+        run: mvn javadoc:javadoc
+
+      - name: Preparar directorio docs para despliegue
+        run: |
+          mkdir -p public/javadoc
+          mkdir -p public/coverage
+          # Copiar Javadoc
+          cp -r target/site/apidocs/* public/javadoc/
+          # Copiar Reporte de Cobertura (necesita ejecución previa de tests)
+          mvn test jacoco:report
+          cp -r target/site/jacoco/* public/coverage/
+          # Copiar archivos de documentación manual
+          cp -r docs/* public/ || true
+
+      - name: Desplegar a GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./public
