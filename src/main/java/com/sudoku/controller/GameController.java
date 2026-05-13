@@ -44,6 +44,10 @@ public class GameController {
     private int secondsElapsed = 0;
     private Difficulty currentDifficulty;
 
+    /**
+     * Initializes the controller, sets up the board view and generator.
+     * Automatically called by JavaFX.
+     */
     public void initialize() {
         this.generator = new SudokuGenerator();
         this.validator = new SudokuValidator();
@@ -54,6 +58,11 @@ public class GameController {
         setupInputHandlers();
     }
 
+    /**
+     * Starts a new game with the specified difficulty.
+     *
+     * @param difficulty the difficulty level to generate
+     */
     public void initGame(Difficulty difficulty) {
         this.currentDifficulty = difficulty;
         this.board = generator.generate(difficulty);

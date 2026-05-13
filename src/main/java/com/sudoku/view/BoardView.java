@@ -18,6 +18,9 @@ public class BoardView {
     private final GridPane gridPane;
     private final TextField[][] textFields;
 
+    /**
+     * Creates a new BoardView and initializes the grid pane.
+     */
     public BoardView() {
         this.gridPane = new GridPane();
         this.gridPane.getStyleClass().add("sudoku-grid");
@@ -46,6 +49,12 @@ public class BoardView {
         }
     }
 
+    /**
+     * Renders the state of the given board into the JavaFX grid.
+     * Sets values, mutability, and error styles for each cell.
+     *
+     * @param board the board model to display
+     */
     public void render(Board board) {
         for (int r = 0; r < Board.SIZE; r++) {
             for (int c = 0; c < Board.SIZE; c++) {
@@ -66,6 +75,13 @@ public class BoardView {
         }
     }
 
+    /**
+     * Updates the visual error style for a specific cell.
+     *
+     * @param row      the cell's row index
+     * @param col      the cell's column index
+     * @param hasError whether the cell should show an error style
+     */
     public void updateErrorStyle(int row, int col, boolean hasError) {
         if (hasError) {
             if (!textFields[row][col].getStyleClass().contains("cell-error")) {
@@ -76,6 +92,11 @@ public class BoardView {
         }
     }
 
+    /**
+     * Registers a handler to be called whenever a cell value changes.
+     *
+     * @param handler a consumer that receives the row and column of the changed cell
+     */
     public void setOnInputHandler(BiConsumer<Integer, Integer> handler) {
         for (int r = 0; r < Board.SIZE; r++) {
             for (int c = 0; c < Board.SIZE; c++) {
@@ -90,6 +111,15 @@ public class BoardView {
         }
     }
 
+    /**
+     * Returns the underlying GridPane for layout insertion.
+     * @return the JavaFX GridPane
+     */
     public GridPane getGridPane() { return gridPane; }
+
+    /**
+     * Returns the 2D array of text fields for direct manipulation if needed.
+     * @return the text field matrix
+     */
     public TextField[][] getTextFields() { return textFields; }
 }
