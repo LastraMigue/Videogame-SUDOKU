@@ -10,9 +10,7 @@ y el proyecto sigue [Versionado Semántico](https://semver.org/spec/v2.0.0.html)
 ## [Sin publicar]
 
 ### Añadido
-- Estructura inicial del proyecto Maven con JavaFX 21
-- `.gitignore` completo para Java, Maven e IDEs
-- `README.md` con documentación completa y badges de estado
+- Ninguno.
 
 ---
 
