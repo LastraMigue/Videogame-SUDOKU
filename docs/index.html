@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Sudoku Premium — Documentación del proyecto JavaFX">
+    <title>Sudoku Premium — Documentación</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .container {
+            text-align: center;
+            padding: 3rem;
+            max-width: 700px;
+        }
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(90deg, #a78bfa, #60a5fa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        p.subtitle {
+            color: #94a3b8;
+            margin-bottom: 3rem;
+            font-size: 1.1rem;
+        }
+        .cards {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .card {
+            background: rgba(255,255,255,0.07);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 16px;
+            padding: 2rem 1.5rem;
+            text-decoration: none;
+            color: #fff;
+            transition: transform 0.2s, background 0.2s;
+        }
+        .card:hover {
+            transform: translateY(-4px);
+            background: rgba(167,139,250,0.15);
+        }
+        .card .icon { font-size: 2.5rem; margin-bottom: 0.75rem; }
+        .card h2 { font-size: 1.1rem; margin-bottom: 0.5rem; }
+        .card p { font-size: 0.85rem; color: #94a3b8; }
+        .badge {
+            display: inline-block;
+            background: rgba(167,139,250,0.2);
+            border: 1px solid rgba(167,139,250,0.4);
+            border-radius: 99px;
+            padding: 0.3rem 1rem;
+            font-size: 0.8rem;
+            color: #a78bfa;
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎮 Sudoku Premium</h1>
+        <p class="subtitle">Proyecto JavaFX 21 · JUnit 5 · Maven · CI/CD</p>
+        <div class="cards">
+            <a class="card" href="./javadoc/index.html">
+                <div class="icon">📚</div>
+                <h2>Javadoc</h2>
+                <p>Documentación completa de la API generada automáticamente</p>
+            </a>
+            <a class="card" href="./coverage/index.html">
+                <div class="icon">🧪</div>
+                <h2>Cobertura</h2>
+                <p>Reporte JaCoCo — cobertura de tests unitarios</p>
+            </a>
+            <a class="card" href="./uml.md">
+                <div class="icon">📊</div>
+                <h2>Diagramas UML</h2>
+                <p>Arquitectura MVC, flujo de juego y estados de celda</p>
+            </a>
+            <a class="card" href="https://github.com/LastraMigue/Videogame-SUDOKU">
+                <div class="icon">💻</div>
+                <h2>Repositorio</h2>
+                <p>Código fuente completo en GitHub</p>
+            </a>
+        </div>
+        <span class="badge">v1.0.0 — Docs generadas automáticamente con GitHub Actions</span>
+    </div>
+</body>
+</html>
