@@ -5,6 +5,10 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import java.io.IOException;
 
+/**
+ * Controller for the victory/defeat overlay.
+ * Displays the game outcome and elapsed time.
+ */
 public class ResultController {
     
     @FXML private Label statusLabel;
@@ -14,6 +18,12 @@ public class ResultController {
 
     private GameController gameController;
 
+    /**
+     * Initializes the result view with the outcome data.
+     * @param victory true if the board was solved correctly
+     * @param time formatted time string
+     * @param gameController reference to the main game controller
+     */
     public void setResult(boolean victory, String time, GameController gameController) {
         this.gameController = gameController;
         this.timeLabel.setText(time);
@@ -29,6 +39,9 @@ public class ResultController {
         }
     }
 
+    /**
+     * Resets the game board and closes the overlay.
+     */
     @FXML
     private void handleNewGame() {
         com.sudoku.service.MusicManager.getInstance().playClickSound();
@@ -36,6 +49,10 @@ public class ResultController {
         close();
     }
 
+    /**
+     * Navigates back to the main menu.
+     * @throws IOException if the FXML for the menu cannot be loaded
+     */
     @FXML
     private void handleMenu() throws IOException {
         com.sudoku.service.MusicManager.getInstance().playClickSound();

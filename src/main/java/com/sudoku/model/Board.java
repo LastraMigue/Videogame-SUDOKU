@@ -10,7 +10,7 @@ package com.sudoku.model;
  * <p>Coordinate system: row and column indices are zero-based (0–8).</p>
  *
  * @author LastraMigue
- * @version 1.0
+ * @version 2.0
  * @see Cell
  * @see SudokuValidator
  */

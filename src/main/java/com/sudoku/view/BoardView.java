@@ -11,7 +11,7 @@ import java.util.function.BiConsumer;
  * Handles the graphical representation of the Sudoku board.
  *
  * @author LastraMigue
- * @version 1.0
+ * @version 2.0
  */
 public class BoardView {
 

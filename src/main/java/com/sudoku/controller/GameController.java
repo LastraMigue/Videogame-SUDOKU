@@ -31,7 +31,8 @@ import java.io.IOException;
  * Main game controller. Coordinates the model, view and services.
  *
  * @author LastraMigue
- * @version 1.0
+ * @author LastraMigue
+ * @version 2.0
  */
 public class GameController {
     /**
@@ -170,6 +171,10 @@ public class GameController {
         });
     }
 
+    /**
+     * Toggles the help mode (real-time error highlighting).
+     * Disabled in Hardcore mode.
+     */
     @FXML
     private void handleToggleHelp() {
         MusicManager.getInstance().playClickSound();
@@ -200,6 +205,9 @@ public class GameController {
         rootPane.getChildren().add(settingsOverlay);
     }
 
+    /**
+     * Updates the status labels in the UI (Difficulty, Hints, Help).
+     */
     private void updateStatusLabels() {
         if (difficultyLabel != null) {
             difficultyLabel.setText("DIFICULTAD: " + currentDifficulty.getLabel());
@@ -218,6 +226,10 @@ public class GameController {
         showResultOverlay(true);
     }
 
+    /**
+     * Handles the hint action. Reveals a random correct number in an empty cell.
+     * Costs one hint.
+     */
     @FXML
     private void handleHint() {
         MusicManager.getInstance().playClickSound();
@@ -254,6 +266,10 @@ public class GameController {
         }
     }
 
+    /**
+     * Validates the entire board and shows the result overlay.
+     * Highlights correct cells in green and incorrect/empty ones in red.
+     */
     @FXML
     private void handleSolve() {
         MusicManager.getInstance().playClickSound();
@@ -300,6 +316,10 @@ public class GameController {
 
     private StackPane currentResultOverlay;
 
+    /**
+     * Shows the result overlay with a custom message based on victory status.
+     * @param victory true if the user solved the puzzle without errors
+     */
     private void showResultOverlay(boolean victory) {
         try {
             FXMLLoader loader = new FXMLLoader(Main.class.getResource("result-view.fxml"));
@@ -314,6 +334,9 @@ public class GameController {
         }
     }
 
+    /**
+     * Closes the current result overlay.
+     */
     public void closeResultOverlay() {
         if (currentResultOverlay != null) {
             rootPane.getChildren().remove(currentResultOverlay);
