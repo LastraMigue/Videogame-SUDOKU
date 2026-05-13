@@ -14,6 +14,10 @@ import java.io.IOException;
  * @version 1.0
  */
 public class Main extends Application {
+    /**
+     * Default constructor for the Main application class.
+     */
+    public Main() {}
 
     @Override
     public void start(Stage stage) throws IOException {

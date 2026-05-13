@@ -20,6 +20,10 @@ package com.sudoku.model;
  * @see Cell
  */
 public class SudokuValidator {
+    /**
+     * Default constructor for the SudokuValidator.
+     */
+    public SudokuValidator() {}
 
     // -------------------------------------------------------------------------
     // Placement validation

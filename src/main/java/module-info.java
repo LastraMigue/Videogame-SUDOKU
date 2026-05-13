@@ -1,3 +1,6 @@
+/**
+ * Main module for the Sudoku application.
+ */
 module com.sudoku {
     requires javafx.controls;
     requires javafx.fxml;

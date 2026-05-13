@@ -30,6 +30,10 @@ import java.io.IOException;
  * @version 1.0
  */
 public class GameController {
+    /**
+     * Default constructor for the GameController.
+     */
+    public GameController() {}
 
     @FXML private StackPane boardContainer;
     @FXML private Label timerLabel;

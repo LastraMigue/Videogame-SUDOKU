@@ -18,6 +18,10 @@ import java.io.IOException;
  * @version 1.0
  */
 public class MenuController {
+    /**
+     * Default constructor for the MenuController.
+     */
+    public MenuController() {}
 
     @FXML
     private void handleEasyMode(ActionEvent event) throws IOException {
