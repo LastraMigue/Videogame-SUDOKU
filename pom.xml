@@ -92,8 +92,10 @@
                 <configuration>
                     <excludes>
                         <exclude>com/sudoku/Main.class</exclude>
+                        <exclude>com/sudoku/Launcher.class</exclude>
                         <exclude>com/sudoku/controller/*</exclude>
                         <exclude>com/sudoku/view/*</exclude>
+                        <exclude>com/sudoku/service/MusicManager.class</exclude>
                     </excludes>
                     <rules>
                         <rule>
