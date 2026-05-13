@@ -11,9 +11,9 @@
     <Label text="SUDOKU" styleClass="title" />
     
     <VBox spacing="15.0" alignment="CENTER">
-        <Button text="MODO FÁCIL" onAction="#handleEasyMode" styleClass="btn-primary, difficulty-btn" />
-        <Button text="MODO MEDIO" onAction="#handleMediumMode" styleClass="btn-secondary, difficulty-btn" />
-        <Button text="MODO DIFÍCIL" onAction="#handleHardMode" styleClass="btn-secondary, difficulty-btn" />
+        <Button text="MODO FÁCIL" onAction="#handleEasyMode" styleClass="btn-primary difficulty-btn" />
+        <Button text="MODO MEDIO" onAction="#handleMediumMode" styleClass="btn-secondary difficulty-btn" />
+        <Button text="MODO DIFÍCIL" onAction="#handleHardMode" styleClass="btn-secondary difficulty-btn" />
     </VBox>
     
     <Label text="Selecciona una dificultad para comenzar" style="-fx-text-fill: #6c7086;" />

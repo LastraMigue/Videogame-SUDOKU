@@ -46,8 +46,8 @@ public class SudokuValidator {
      *         violates none of the three Sudoku constraints
      */
     public boolean isValidPlacement(Board board, int row, int col, int value) {
-        return isRowValid(board, row, value)
-                && isColumnValid(board, col, value)
+        return isRowValid(board, row, col, value)
+                && isColumnValid(board, row, col, value)
                 && isBoxValid(board, row, col, value);
     }
 
@@ -59,9 +59,10 @@ public class SudokuValidator {
      * @param value the value to search for (1–9)
      * @return {@code true} if {@code value} does <em>not</em> appear in the row
      */
-    public boolean isRowValid(Board board, int row, int value) {
-        for (int col = 0; col < Board.SIZE; col++) {
-            if (board.getValue(row, col) == value) {
+    public boolean isRowValid(Board board, int row, int col, int value) {
+        if (value == 0) return true;
+        for (int c = 0; c < Board.SIZE; c++) {
+            if (c != col && board.getValue(row, c) == value) {
                 return false;
             }
         }
@@ -76,9 +77,10 @@ public class SudokuValidator {
      * @param value the value to search for (1–9)
      * @return {@code true} if {@code value} does <em>not</em> appear in the column
      */
-    public boolean isColumnValid(Board board, int col, int value) {
-        for (int row = 0; row < Board.SIZE; row++) {
-            if (board.getValue(row, col) == value) {
+    public boolean isColumnValid(Board board, int row, int col, int value) {
+        if (value == 0) return true;
+        for (int r = 0; r < Board.SIZE; r++) {
+            if (r != row && board.getValue(r, col) == value) {
                 return false;
             }
         }
@@ -96,11 +98,12 @@ public class SudokuValidator {
      * @return {@code true} if {@code value} does <em>not</em> appear in the box
      */
     public boolean isBoxValid(Board board, int row, int col, int value) {
+        if (value == 0) return true;
         int startRow = (row / Board.BOX_SIZE) * Board.BOX_SIZE;
         int startCol = (col / Board.BOX_SIZE) * Board.BOX_SIZE;
         for (int r = startRow; r < startRow + Board.BOX_SIZE; r++) {
             for (int c = startCol; c < startCol + Board.BOX_SIZE; c++) {
-                if (board.getValue(r, c) == value) {
+                if ((r != row || c != col) && board.getValue(r, c) == value) {
                     return false;
                 }
             }

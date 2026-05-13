@@ -38,6 +38,8 @@ public class GameController {
 
     @FXML private StackPane boardContainer;
     @FXML private Label timerLabel;
+    @FXML private Label difficultyLabel;
+    @FXML private Label helpStatusLabel;
 
     private Board board;
     private BoardView boardView;
@@ -73,6 +75,8 @@ public class GameController {
         this.currentDifficulty = difficulty;
         this.board = generator.generate(difficulty);
         this.boardView.render(board);
+        this.helpMode = false;
+        updateStatusLabels();
         startTimer();
     }
 
@@ -81,12 +85,15 @@ public class GameController {
             TextField field = boardView.getTextFields()[row][col];
             String text = field.getText();
             
-            if (text.matches("[1-9]")) {
+            if (text.isEmpty()) {
+                handleInput(row, col, 0);
+            } else if (text.matches("[1-9]")) {
                 int value = Integer.parseInt(text);
                 handleInput(row, col, value);
             } else {
-                field.setText("");
-                board.setValue(row, col, 0);
+                // Evitar bucles infinitos: solo limpiar si no est ya vaco
+                javafx.application.Platform.runLater(() -> field.setText(""));
+                handleInput(row, col, 0);
             }
         });
     }
@@ -98,10 +105,9 @@ public class GameController {
             if (helpMode) {
                 refreshAllConflicts();
             } else {
-                // Modo normal: solo validar la celda actual
-                boolean isValid = validator.isValidPlacement(board, row, col, value);
-                board.getCell(row, col).setError(!isValid);
-                boardView.updateErrorStyle(row, col, !isValid);
+                // Modo normal: sin ayudas visuales de error
+                board.getCell(row, col).setError(false);
+                boardView.updateErrorStyle(row, col, false);
             }
             
             if (board.isFull() && validator.isBoardValid(board)) {
@@ -113,54 +119,59 @@ public class GameController {
     }
 
     private void refreshAllConflicts() {
-        // Limpiar errores actuales en el modelo y vista
-        for (int r = 0; r < Board.SIZE; r++) {
-            for (int c = 0; c < Board.SIZE; c++) {
-                board.getCell(r, c).setError(false);
-                boardView.updateErrorStyle(r, c, false);
-            }
-        }
+        boolean[][] errorMap = new boolean[Board.SIZE][Board.SIZE];
 
-        // Buscar conflictos para cada celda no vacía
+        // 1. Encontrar todos los conflictos
         for (int r = 0; r < Board.SIZE; r++) {
             for (int c = 0; c < Board.SIZE; c++) {
                 int val = board.getValue(r, c);
                 if (val != 0) {
                     List<int[]> conflicts = validator.getConflictingCells(board, r, c, val);
                     if (!conflicts.isEmpty()) {
-                        // Marcar la celda actual y sus conflictos
-                        board.getCell(r, c).setError(true);
-                        boardView.updateErrorStyle(r, c, true);
+                        errorMap[r][c] = true;
                         for (int[] conflict : conflicts) {
-                            board.getCell(conflict[0], conflict[1]).setError(true);
-                            boardView.updateErrorStyle(conflict[0], conflict[1], true);
+                            errorMap[conflict[0]][conflict[1]] = true;
                         }
                     }
                 }
             }
         }
+
+        // 2. Aplicar a la vista en el hilo de la UI
+        javafx.application.Platform.runLater(() -> {
+            for (int r = 0; r < Board.SIZE; r++) {
+                for (int c = 0; c < Board.SIZE; c++) {
+                    board.getCell(r, c).setError(errorMap[r][c]);
+                    boardView.updateErrorStyle(r, c, errorMap[r][c]);
+                }
+            }
+        });
     }
 
     @FXML
     private void handleToggleHelp() {
         this.helpMode = !this.helpMode;
+        updateStatusLabels();
         if (helpMode) {
             refreshAllConflicts();
         } else {
-            // Limpiar errores extendidos y volver a validación simple
+            // Limpiar todos los errores visuales
             for (int r = 0; r < Board.SIZE; r++) {
                 for (int c = 0; c < Board.SIZE; c++) {
-                    int val = board.getValue(r, c);
-                    if (val != 0) {
-                        boolean isValid = validator.isValidPlacement(board, r, c, val);
-                        board.getCell(r, c).setError(!isValid);
-                        boardView.updateErrorStyle(r, c, !isValid);
-                    } else {
-                        board.getCell(r, c).setError(false);
-                        boardView.updateErrorStyle(r, c, false);
-                    }
+                    board.getCell(r, c).setError(false);
+                    boardView.updateErrorStyle(r, c, false);
                 }
             }
+        }
+    }
+
+    private void updateStatusLabels() {
+        if (difficultyLabel != null) {
+            difficultyLabel.setText("DIFICULTAD: " + currentDifficulty.name());
+        }
+        if (helpStatusLabel != null) {
+            helpStatusLabel.setText("AYUDA: " + (helpMode ? "ACTIVADA" : "DESACTIVADA"));
+            helpStatusLabel.setStyle("-fx-text-fill: " + (helpMode ? "#a6e3a1" : "#f38ba8") + "; -fx-font-weight: bold;");
         }
     }
 

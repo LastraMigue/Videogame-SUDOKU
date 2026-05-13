@@ -11,6 +11,10 @@
     <top>
         <HBox alignment="CENTER_LEFT" spacing="20.0" style="-fx-padding: 0 0 20 0;">
             <Button text="← VOLVER" onAction="#handleBackToMenu" styleClass="btn-secondary" />
+            <VBox alignment="CENTER_LEFT" spacing="2">
+                <Label fx:id="difficultyLabel" text="DIFICULTAD: -" style="-fx-text-fill: #bac2de; -fx-font-size: 12px; -fx-font-weight: bold;" />
+                <Label fx:id="helpStatusLabel" text="AYUDA: DESACTIVADA" style="-fx-text-fill: #f38ba8; -fx-font-size: 12px; -fx-font-weight: bold;" />
+            </VBox>
             <Region HBox.hgrow="ALWAYS" />
             <Label fx:id="timerLabel" text="00:00" style="-fx-text-fill: #89b4fa; -fx-font-size: 20px; -fx-font-weight: bold;" />
         </HBox>
