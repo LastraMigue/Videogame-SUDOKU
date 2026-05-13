@@ -40,13 +40,14 @@ public class MenuController {
 
     private void startGame(ActionEvent event, Difficulty difficulty) throws IOException {
         FXMLLoader loader = new FXMLLoader(Main.class.getResource("game-view.fxml"));
-        Scene scene = new Scene(loader.load(), 800, 800);
+        Scene scene = new Scene(loader.load());
         
         GameController gameController = loader.getController();
         gameController.initGame(difficulty);
         
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(scene);
+        stage.sizeToScene();
         stage.centerOnScreen();
     }
 }

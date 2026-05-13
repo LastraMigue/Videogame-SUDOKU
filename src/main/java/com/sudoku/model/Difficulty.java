@@ -8,18 +8,20 @@ package com.sudoku.model;
  */
 public enum Difficulty {
     /** Easy game: ~45-50 clues. */
-    EASY(45),
-    
-    /** Medium game: ~30-35 clues. */
-    MEDIUM(32),
-    
-    /** Hard game: ~20-25 clues. */
-    HARD(22);
+    EASY(45, "FÁCIL"),
+    MEDIUM(32, "MEDIO"),
+    HARD(22, "DIFÍCIL");
 
     private final int clues;
+    private final String label;
 
-    Difficulty(int clues) {
+    Difficulty(int clues, String label) {
         this.clues = clues;
+        this.label = label;
+    }
+
+    public String getLabel() {
+        return label;
     }
 
     /**

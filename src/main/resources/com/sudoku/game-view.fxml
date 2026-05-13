@@ -6,7 +6,8 @@
 
 <BorderPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.sudoku.controller.GameController"
-            styleClass="main-container" stylesheets="@../../styles/sudoku.css">
+            styleClass="main-container" stylesheets="@../../styles/sudoku.css"
+            prefWidth="500.0" prefHeight="600.0">
     
     <top>
         <HBox alignment="CENTER_LEFT" spacing="20.0" style="-fx-padding: 0 0 20 0;">

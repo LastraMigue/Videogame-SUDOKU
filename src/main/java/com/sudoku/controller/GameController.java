@@ -167,7 +167,7 @@ public class GameController {
 
     private void updateStatusLabels() {
         if (difficultyLabel != null) {
-            difficultyLabel.setText("DIFICULTAD: " + currentDifficulty.name());
+            difficultyLabel.setText("DIFICULTAD: " + currentDifficulty.getLabel());
         }
         if (helpStatusLabel != null) {
             helpStatusLabel.setText("AYUDA: " + (helpMode ? "ACTIVADA" : "DESACTIVADA"));
@@ -222,9 +222,11 @@ public class GameController {
         stopTimer();
         
         FXMLLoader loader = new FXMLLoader(Main.class.getResource("menu-view.fxml"));
-        Scene scene = new Scene(loader.load(), 600, 700);
+        Scene scene = new Scene(loader.load());
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(scene);
+        stage.sizeToScene();
+        stage.centerOnScreen();
     }
 
     private void startTimer() {
