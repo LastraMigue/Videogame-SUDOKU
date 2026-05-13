@@ -103,9 +103,7 @@ public class BoardView {
                 final int row = r;
                 final int col = c;
                 textFields[r][c].textProperty().addListener((obs, old, val) -> {
-                    if (!val.isEmpty()) {
-                        handler.accept(row, col);
-                    }
+                    handler.accept(row, col);
                 });
             }
         }

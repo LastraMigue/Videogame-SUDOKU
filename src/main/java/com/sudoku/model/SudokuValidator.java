@@ -1,5 +1,8 @@
 package com.sudoku.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Provides all validation logic for a Sudoku board.
  *
@@ -103,6 +106,46 @@ public class SudokuValidator {
             }
         }
         return true;
+    }
+
+    /**
+     * Finds all cells that conflict with the placement of {@code value} at {@code (row, col)}.
+     *
+     * @param board the current board state
+     * @param row   the target row
+     * @param col   the target column
+     * @param value the value to check
+     * @return a list of row/column pairs [r, c] representing conflicting cells
+     */
+    public List<int[]> getConflictingCells(Board board, int row, int col, int value) {
+        List<int[]> conflicts = new ArrayList<>();
+        if (value == 0) return conflicts;
+
+        // Row conflicts
+        for (int c = 0; c < Board.SIZE; c++) {
+            if (c != col && board.getValue(row, c) == value) {
+                conflicts.add(new int[]{row, c});
+            }
+        }
+
+        // Col conflicts
+        for (int r = 0; r < Board.SIZE; r++) {
+            if (r != row && board.getValue(r, col) == value) {
+                conflicts.add(new int[]{r, col});
+            }
+        }
+
+        // Box conflicts
+        int startRow = (row / Board.BOX_SIZE) * Board.BOX_SIZE;
+        int startCol = (col / Board.BOX_SIZE) * Board.BOX_SIZE;
+        for (int r = startRow; r < startRow + Board.BOX_SIZE; r++) {
+            for (int c = startCol; c < startCol + Board.BOX_SIZE; c++) {
+                if ((r != row || c != col) && board.getValue(r, c) == value) {
+                    conflicts.add(new int[]{r, c});
+                }
+            }
+        }
+        return conflicts;
     }
 
     // -------------------------------------------------------------------------

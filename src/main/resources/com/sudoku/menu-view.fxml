@@ -6,7 +6,7 @@
 
 <VBox alignment="CENTER" spacing="30.0" xmlns="http://javafx.com/javafx/21" 
       xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sudoku.controller.MenuController"
-      styleClass="main-container" stylesheets="@../styles/sudoku.css">
+      styleClass="main-container" stylesheets="@../../styles/sudoku.css">
     
     <Label text="SUDOKU" styleClass="title" />
     

@@ -21,6 +21,7 @@ import javafx.util.Duration;
 import javafx.scene.Node;
 import javafx.event.ActionEvent;
 
+import java.util.List;
 import java.io.IOException;
 
 /**
@@ -47,6 +48,7 @@ public class GameController {
     private Timeline timeline;
     private int secondsElapsed = 0;
     private Difficulty currentDifficulty;
+    private boolean helpMode = false;
 
     /**
      * Initializes the controller, sets up the board view and generator.
@@ -92,15 +94,73 @@ public class GameController {
     private void handleInput(int row, int col, int value) {
         try {
             board.setValue(row, col, value);
-            boolean isValid = validator.isValidPlacement(board, row, col, value);
-            board.getCell(row, col).setError(!isValid);
-            boardView.updateErrorStyle(row, col, !isValid);
+            
+            if (helpMode) {
+                refreshAllConflicts();
+            } else {
+                // Modo normal: solo validar la celda actual
+                boolean isValid = validator.isValidPlacement(board, row, col, value);
+                board.getCell(row, col).setError(!isValid);
+                boardView.updateErrorStyle(row, col, !isValid);
+            }
             
             if (board.isFull() && validator.isBoardValid(board)) {
                 handleWin();
             }
         } catch (Exception e) {
-            // Ignorar errores de celdas fijas (no deberían ocurrir por setEditable(false))
+            // Ignorar errores de celdas fijas
+        }
+    }
+
+    private void refreshAllConflicts() {
+        // Limpiar errores actuales en el modelo y vista
+        for (int r = 0; r < Board.SIZE; r++) {
+            for (int c = 0; c < Board.SIZE; c++) {
+                board.getCell(r, c).setError(false);
+                boardView.updateErrorStyle(r, c, false);
+            }
+        }
+
+        // Buscar conflictos para cada celda no vacía
+        for (int r = 0; r < Board.SIZE; r++) {
+            for (int c = 0; c < Board.SIZE; c++) {
+                int val = board.getValue(r, c);
+                if (val != 0) {
+                    List<int[]> conflicts = validator.getConflictingCells(board, r, c, val);
+                    if (!conflicts.isEmpty()) {
+                        // Marcar la celda actual y sus conflictos
+                        board.getCell(r, c).setError(true);
+                        boardView.updateErrorStyle(r, c, true);
+                        for (int[] conflict : conflicts) {
+                            board.getCell(conflict[0], conflict[1]).setError(true);
+                            boardView.updateErrorStyle(conflict[0], conflict[1], true);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    @FXML
+    private void handleToggleHelp() {
+        this.helpMode = !this.helpMode;
+        if (helpMode) {
+            refreshAllConflicts();
+        } else {
+            // Limpiar errores extendidos y volver a validación simple
+            for (int r = 0; r < Board.SIZE; r++) {
+                for (int c = 0; c < Board.SIZE; c++) {
+                    int val = board.getValue(r, c);
+                    if (val != 0) {
+                        boolean isValid = validator.isValidPlacement(board, r, c, val);
+                        board.getCell(r, c).setError(!isValid);
+                        boardView.updateErrorStyle(r, c, !isValid);
+                    } else {
+                        board.getCell(r, c).setError(false);
+                        boardView.updateErrorStyle(r, c, false);
+                    }
+                }
+            }
         }
     }
 
