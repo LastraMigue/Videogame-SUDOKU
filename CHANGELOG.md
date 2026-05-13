@@ -34,6 +34,7 @@ y el proyecto sigue [Versionado Semántico](https://semver.org/spec/v2.0.0.html)
 - Diagramas UML Mermaid en `docs/uml.md`
 
 ### Corregido
+- `fix(solver)` — Resolved infinite loop when attempting to solve invalid boards.
 - `hotfix/timer-null-check` — NullPointerException al detener el temporizador antes de su inicialización
 
 ---
