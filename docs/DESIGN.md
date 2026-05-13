@@ -47,13 +47,13 @@ classDiagram
         +generate(Difficulty d) Board
     }
 
-    Main ..> MusicManager : Inicia Singleton
-    Main ..> MenuController : Carga FXML
-    MenuController --> GameController : Instancia con Dificultad
-    GameController o-- Board : Agrega
-    GameController --> SudokuGenerator : Usa para crear
-    GameController --> MusicManager : Llama para SFX
-    Board "1" *-- "81" Cell : Compuesto por
+    Main ..> MusicManager : Initialize Singleton
+    Main ..> MenuController : Load FXML
+    MenuController --> GameController : Instantiate with Difficulty
+    GameController o-- Board : Aggregate
+    GameController --> SudokuGenerator : Use for creation
+    GameController --> MusicManager : Call for SFX
+    Board "1" *-- "81" Cell : Composed of
 ```
 
 ---
@@ -63,23 +63,23 @@ classDiagram
 
 ```mermaid
 stateDiagram-v2
-    [*] --> MenuPrincipal
-    MenuPrincipal --> Jugando: Seleccionar Dificultad
+    [*] --> MainMenu
+    MainMenu --> Playing: Select Difficulty
     
-    state Jugando {
-        [*] --> TableroInicial
-        TableroInicial --> Editando: Usuario escribe
-        Editando --> Editando: Validar conflicto
-        Editando --> Configurando: Click en Ajustes
-        Configurando --> Editando: Reanudar
+    state Playing {
+        [*] --> InitialBoard
+        InitialBoard --> Editing: User input
+        Editing --> Editing: Validate conflict
+        Editing --> Settings: Click Settings
+        Settings --> Editing: Resume
     }
     
-    Jugando --> Evaluando: Click en Solucionar
-    Evaluando --> Victoria: 0 fallos
-    Evaluando --> Derrota: > 0 fallos
+    Playing --> Evaluating: Click Solve
+    Evaluating --> Victory: 0 errors
+    Evaluating --> Defeat: > 0 errors
     
-    Victoria --> MenuPrincipal: Volver
-    Derrota --> Jugando: Reiniciar
+    Victory --> MainMenu: Back
+    Defeat --> Playing: Restart
 ```
 
 ---
@@ -89,20 +89,20 @@ stateDiagram-v2
 
 ```mermaid
 sequenceDiagram
-    participant U as Usuario
+    participant U as User
     participant M as MenuController
     participant S as MusicManager
     participant G as GameController
     participant Gen as SudokuGenerator
 
-    U->>M: Elige dificultad (EASY)
+    U->>M: Choose difficulty (EASY)
     M->>S: playClickSound()
-    M->>G: Cargar escena de juego
+    M->>G: Load game scene
     activate G
     G->>Gen: generate(EASY)
-    Gen-->>G: Board inicializado
+    Gen-->>G: Board initialized
     G->>G: startTimer()
-    G-->>U: Muestra tablero listo
+    G-->>U: Show ready board
     deactivate G
 ```
 
@@ -113,12 +113,12 @@ sequenceDiagram
 
 ```mermaid
 flowchart LR
-    U((Usuario)) <--> UI[Interfaz JavaFX]
-    UI -- Acciones FXML --> GC[GameController]
-    GC -- Actualiza --> BV[BoardView]
-    GC -- Consulta/Modifica --> BM[Board Model]
-    GC -- Solicita Audio --> MM[MusicManager]
-    BM -- Valida --> SV[SudokuValidator]
+    U((User)) <--> UI[JavaFX Interface]
+    UI -- FXML Actions --> GC[GameController]
+    GC -- Update --> BV[BoardView]
+    GC -- Query/Modify --> BM[Board Model]
+    GC -- Request Audio --> MM[MusicManager]
+    BM -- Validate --> SV[SudokuValidator]
 ```
 
 ---
@@ -128,16 +128,16 @@ flowchart LR
 
 ```mermaid
 flowchart TD
-    A[Inicio] --> B[Crear Tablero Vacío]
-    B --> C[Llenar con SudokuSolver]
-    C --> D{¿Tablero Válido?}
+    A[Start] --> B[Create Empty Board]
+    B --> C[Fill with SudokuSolver]
+    C --> D{Valid Board?}
     D -- No --> B
-    D -- Sí --> E[Determinar celdas a eliminar]
-    E --> F[Quitar N celdas según Dificultad]
-    F --> G{¿Solución Única?}
+    D -- Yes --> E[Determine cells to remove]
+    E --> F[Remove N cells by Difficulty]
+    F --> G{Unique Solution?}
     G -- No --> E
-    G -- Sí --> H[Retornar Board al Controlador]
-    H --> I[Fin]
+    G -- Yes --> H[Return Board to Controller]
+    H --> I[End]
 ```
 
 ---
@@ -147,18 +147,18 @@ flowchart TD
 
 ```mermaid
 stateDiagram-v2
-    [*] --> EsperandoEntrada
-    EsperandoEntrada --> ValidandoFiltro: Usuario pulsa tecla
+    [*] --> WaitingForInput
+    WaitingForInput --> ValidatingFilter: User key press
     
-    state ValidandoFiltro {
-        [*] --> ComprobarRegex
-        ComprobarRegex --> Aceptar: Es [1-9]
-        ComprobarRegex --> Rechazar: Otros caracteres
+    state ValidatingFilter {
+        [*] --> CheckRegex
+        CheckRegex --> Accept: Is [1-9]
+        CheckRegex --> Reject: Other characters
     }
     
-    Aceptar --> ActualizarModelo: setValue()
-    ActualizarModelo --> ComprobarConflicto: SudokuValidator
-    ComprobarConflicto --> MarcarRojo: Hay duplicado
-    ComprobarConflicto --> MarcarNormal: Sin errores
-    Rechazar --> EsperandoEntrada: Ignorar tecla
+    Accept --> UpdateModel: setValue()
+    UpdateModel --> CheckConflict: SudokuValidator
+    CheckConflict --> MarkRed: Duplicate found
+    CheckConflict --> MarkNormal: No errors
+    Reject --> WaitingForInput: Ignore key
 ```
