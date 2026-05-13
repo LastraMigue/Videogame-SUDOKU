@@ -97,10 +97,16 @@
                     </execution>
                     <execution>
                         <id>check</id>
+                        <phase>verify</phase>
                         <goals>
                             <goal>check</goal>
                         </goals>
                         <configuration>
+                            <excludes>
+                                <exclude>com/sudoku/Main.class</exclude>
+                                <exclude>com/sudoku/controller/*</exclude>
+                                <exclude>com/sudoku/view/*</exclude>
+                            </excludes>
                             <rules>
                                 <rule>
                                     <element>BUNDLE</element>

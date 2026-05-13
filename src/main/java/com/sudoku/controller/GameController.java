@@ -144,9 +144,7 @@ public class GameController {
 
     @FXML
     private void handleBackToMenu(ActionEvent event) throws IOException {
-        // BUG INTENCIONADO: No detenemos el timeline aquí, 
-        // lo que causará fugas de memoria y múltiples hilos si volvemos a jugar.
-        // Se arreglará en la rama hotfix.
+        stopTimer();
         
         FXMLLoader loader = new FXMLLoader(Main.class.getResource("menu-view.fxml"));
         Scene scene = new Scene(loader.load(), 600, 700);
