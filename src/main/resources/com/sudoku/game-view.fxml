@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.sudoku.controller.GameController"
+            styleClass="main-container" stylesheets="@../styles/sudoku.css">
+    
+    <top>
+        <HBox alignment="CENTER_LEFT" spacing="20.0" style="-fx-padding: 0 0 20 0;">
+            <Button text="← VOLVER" onAction="#handleBackToMenu" styleClass="btn-secondary" />
+            <Region HBox.hgrow="ALWAYS" />
+            <Label fx:id="timerLabel" text="00:00" style="-fx-text-fill: #89b4fa; -fx-font-size: 20px; -fx-font-weight: bold;" />
+        </HBox>
+    </top>
+    
+    <center>
+        <StackPane fx:id="boardContainer" alignment="CENTER">
+            <!-- El tablero se generará dinámicamente en BoardView -->
+        </StackPane>
+    </center>
+    
+    <bottom>
+        <HBox alignment="CENTER" spacing="20.0" style="-fx-padding: 20 0 0 0;">
+            <Button text="PISTA" onAction="#handleHint" styleClass="btn-secondary" />
+            <Button text="SOLUCIONAR" onAction="#handleSolve" styleClass="btn-secondary" />
+            <Button text="REINICIAR" onAction="#handleReset" styleClass="btn-primary" />
+        </HBox>
+    </bottom>
+</BorderPane>
