@@ -96,6 +96,21 @@ public class GameController {
                 handleInput(row, col, 0);
             }
         });
+
+        // Manejadores de foco para resaltar fila/columna/bloque en modo ayuda
+        for (int r = 0; r < Board.SIZE; r++) {
+            for (int c = 0; c < Board.SIZE; c++) {
+                final int row = r;
+                final int col = c;
+                boardView.getTextFields()[r][c].focusedProperty().addListener((obs, old, isFocused) -> {
+                    if (isFocused && helpMode) {
+                        boardView.highlightGroup(row, col);
+                    } else {
+                        boardView.clearHighlights();
+                    }
+                });
+            }
+        }
     }
 
     private void handleInput(int row, int col, int value) {

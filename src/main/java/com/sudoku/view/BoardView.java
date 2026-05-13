@@ -110,6 +110,47 @@ public class BoardView {
     }
 
     /**
+     * Highlights the row, column, and 3x3 box of the selected cell.
+     * @param row row index
+     * @param col column index
+     */
+    public void highlightGroup(int row, int col) {
+        clearHighlights();
+        
+        // Fila y Columna
+        for (int i = 0; i < Board.SIZE; i++) {
+            if (!textFields[row][i].getStyleClass().contains("cell-highlight")) {
+                textFields[row][i].getStyleClass().add("cell-highlight");
+            }
+            if (!textFields[i][col].getStyleClass().contains("cell-highlight")) {
+                textFields[i][col].getStyleClass().add("cell-highlight");
+            }
+        }
+        
+        // Bloque 3x3
+        int startRow = (row / 3) * 3;
+        int startCol = (col / 3) * 3;
+        for (int r = startRow; r < startRow + 3; r++) {
+            for (int c = startCol; c < startCol + 3; c++) {
+                if (!textFields[r][c].getStyleClass().contains("cell-highlight")) {
+                    textFields[r][c].getStyleClass().add("cell-highlight");
+                }
+            }
+        }
+    }
+
+    /**
+     * Clears all temporary cell highlights.
+     */
+    public void clearHighlights() {
+        for (int r = 0; r < Board.SIZE; r++) {
+            for (int c = 0; c < Board.SIZE; c++) {
+                textFields[r][c].getStyleClass().remove("cell-highlight");
+            }
+        }
+    }
+
+    /**
      * Returns the underlying GridPane for layout insertion.
      * @return the JavaFX GridPane
      */
