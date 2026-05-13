@@ -10,7 +10,8 @@ public enum Difficulty {
     /** Easy game: ~45-50 clues. */
     EASY(45, "FÁCIL"),
     MEDIUM(32, "MEDIO"),
-    HARD(22, "DIFÍCIL");
+    HARD(22, "DIFÍCIL"),
+    HARDCORE(22, "HARDCORE");
 
     private final int clues;
     private final String label;

@@ -48,6 +48,11 @@ public class MenuController {
         startGame(event, Difficulty.HARD);
     }
 
+    @FXML
+    private void handleHardcoreMode(ActionEvent event) throws IOException {
+        startGame(event, Difficulty.HARDCORE);
+    }
+
     private void startGame(ActionEvent event, Difficulty difficulty) throws IOException {
         FXMLLoader loader = new FXMLLoader(Main.class.getResource("game-view.fxml"));
         Scene scene = new Scene(loader.load());

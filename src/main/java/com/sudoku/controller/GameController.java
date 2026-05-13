@@ -15,6 +15,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -38,6 +39,8 @@ public class GameController {
 
     @FXML private StackPane rootPane;
     @FXML private StackPane boardContainer;
+    @FXML private Button hintButton;
+    @FXML private Button helpButton;
     @FXML private Label timerLabel;
     @FXML private Label difficultyLabel;
     @FXML private Label helpStatusLabel;
@@ -77,6 +80,12 @@ public class GameController {
         this.board = generator.generate(difficulty);
         this.boardView.render(board);
         this.helpMode = false;
+        
+        // Bloquear Ayuda y Pista en modo HARDCORE
+        boolean isHardcore = (difficulty == Difficulty.HARDCORE);
+        if (hintButton != null) hintButton.setDisable(isHardcore);
+        if (helpButton != null) helpButton.setDisable(isHardcore);
+        
         updateStatusLabels();
         startTimer();
     }

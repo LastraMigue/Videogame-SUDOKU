@@ -10,7 +10,7 @@
            prefWidth="500.0" prefHeight="600.0">
 
     <VBox alignment="CENTER" spacing="20.0" styleClass="main-container">
-        <HBox alignment="TOP_RIGHT" style="-fx-padding: -84 -10 0 0;">
+        <HBox alignment="TOP_RIGHT" style="-fx-padding: -32 -10 0 0;">
             <Button text="⚙" onAction="#handleOpenSettings" styleClass="btn-settings" />
         </HBox>
         
@@ -20,6 +20,7 @@
             <Button text="MODO FÁCIL" onAction="#handleEasyMode" styleClass="difficulty-btn" />
             <Button text="MODO MEDIO" onAction="#handleMediumMode" styleClass="difficulty-btn" />
             <Button text="MODO DIFÍCIL" onAction="#handleHardMode" styleClass="difficulty-btn" />
+            <Button text="MODO HARDCORE" onAction="#handleHardcoreMode" styleClass="difficulty-btn" style="-fx-text-fill: #f38ba8;" />
         </VBox>
         
         <Label text="Selecciona una dificultad para comenzar" style="-fx-text-fill: #6c7086;" />
