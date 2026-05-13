@@ -8,20 +8,30 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.scene.Node;
 import javafx.event.ActionEvent;
+import javafx.scene.layout.StackPane;
 import java.io.IOException;
 
 /**
  * Controller for the main menu view.
- * Handles difficulty selection and scene transitions.
- *
- * @author LastraMigue
- * @version 1.0
  */
 public class MenuController {
+    @FXML private StackPane rootPane;
+
     /**
      * Default constructor for the MenuController.
      */
     public MenuController() {}
+
+    @FXML
+    private void handleOpenSettings() throws IOException {
+        FXMLLoader loader = new FXMLLoader(Main.class.getResource("settings-view.fxml"));
+        StackPane settingsOverlay = loader.load();
+        
+        SettingsController controller = loader.getController();
+        controller.setContainers(rootPane, settingsOverlay);
+        
+        rootPane.getChildren().add(settingsOverlay);
+    }
 
     @FXML
     private void handleEasyMode(ActionEvent event) throws IOException {

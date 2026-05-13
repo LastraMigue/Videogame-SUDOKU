@@ -36,6 +36,7 @@ public class GameController {
      */
     public GameController() {}
 
+    @FXML private StackPane rootPane;
     @FXML private StackPane boardContainer;
     @FXML private Label timerLabel;
     @FXML private Label difficultyLabel;
@@ -178,6 +179,17 @@ public class GameController {
                 }
             }
         }
+    }
+
+    @FXML
+    private void handleOpenSettings() throws IOException {
+        FXMLLoader loader = new FXMLLoader(Main.class.getResource("settings-view.fxml"));
+        StackPane settingsOverlay = loader.load();
+        
+        SettingsController controller = loader.getController();
+        controller.setContainers(rootPane, settingsOverlay);
+        
+        rootPane.getChildren().add(settingsOverlay);
     }
 
     private void updateStatusLabels() {

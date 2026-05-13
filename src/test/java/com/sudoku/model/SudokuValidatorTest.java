@@ -21,16 +21,16 @@ class SudokuValidatorTest {
     @DisplayName("Validación de fila: detectar duplicados")
     void rowValidation() {
         board.setValue(0, 0, 5);
-        assertFalse(validator.isRowValid(board, 0, 5), "No debería permitir un 5 en la misma fila");
-        assertTrue(validator.isRowValid(board, 0, 3), "Debería permitir un 3 en la fila");
+        assertFalse(validator.isRowValid(board, 0, 5, 5), "No debería permitir un 5 en la misma fila");
+        assertTrue(validator.isRowValid(board, 0, 5, 3), "Debería permitir un 3 en la fila");
     }
 
     @Test
     @DisplayName("Validación de columna: detectar duplicados")
     void columnValidation() {
         board.setValue(0, 0, 7);
-        assertFalse(validator.isColumnValid(board, 0, 7), "No debería permitir un 7 en la misma columna");
-        assertTrue(validator.isColumnValid(board, 0, 2), "Debería permitir un 2 en la columna");
+        assertFalse(validator.isColumnValid(board, 5, 0, 7), "No debería permitir un 7 en la misma columna");
+        assertTrue(validator.isColumnValid(board, 5, 0, 2), "Debería permitir un 2 en la columna");
     }
 
     @Test

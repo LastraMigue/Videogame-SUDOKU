@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<StackPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="com.sudoku.controller.SettingsController"
+           styleClass="settings-overlay">
+    
+    <VBox styleClass="settings-card" alignment="CENTER" maxWidth="350">
+        <Label text="CONFIGURACIÓN" styleClass="settings-title" />
+        
+        <VBox spacing="10" alignment="CENTER_LEFT">
+            <Label text="Volumen de Música" styleClass="settings-label" />
+            <Slider fx:id="volumeSlider" min="0" max="1" value="0.5" />
+        </VBox>
+        
+        <Separator opacity="0.2" />
+        
+        <Button text="REANUDAR" onAction="#handleResume" prefWidth="200" />
+    </VBox>
+</StackPane>

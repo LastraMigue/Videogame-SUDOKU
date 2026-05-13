@@ -21,6 +21,9 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
+        // Iniciar msica
+        com.sudoku.service.MusicManager.getInstance();
+        
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("menu-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         

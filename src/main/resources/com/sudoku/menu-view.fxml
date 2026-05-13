@@ -4,18 +4,24 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
 
-<VBox alignment="CENTER" spacing="30.0" xmlns="http://javafx.com/javafx/21" 
-      xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sudoku.controller.MenuController"
-      styleClass="main-container" stylesheets="@../../styles/sudoku.css"
-      prefWidth="500.0" prefHeight="600.0">
-    
-    <Label text="SUDOKU" styleClass="title" />
-    
-    <VBox spacing="25.0" alignment="CENTER">
-        <Button text="MODO FÁCIL" onAction="#handleEasyMode" styleClass="difficulty-btn" />
-        <Button text="MODO MEDIO" onAction="#handleMediumMode" styleClass="difficulty-btn" />
-        <Button text="MODO DIFÍCIL" onAction="#handleHardMode" styleClass="difficulty-btn" />
+<StackPane fx:id="rootPane" xmlns="http://javafx.com/javafx/21" 
+           xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sudoku.controller.MenuController"
+           stylesheets="@../../styles/sudoku.css"
+           prefWidth="500.0" prefHeight="600.0">
+
+    <VBox alignment="CENTER" spacing="20.0" styleClass="main-container">
+        <HBox alignment="TOP_RIGHT" style="-fx-padding: -84 -10 0 0;">
+            <Button text="⚙" onAction="#handleOpenSettings" styleClass="btn-settings" />
+        </HBox>
+        
+        <Label text="SUDOKU" styleClass="title" />
+        
+        <VBox spacing="25.0" alignment="CENTER">
+            <Button text="MODO FÁCIL" onAction="#handleEasyMode" styleClass="difficulty-btn" />
+            <Button text="MODO MEDIO" onAction="#handleMediumMode" styleClass="difficulty-btn" />
+            <Button text="MODO DIFÍCIL" onAction="#handleHardMode" styleClass="difficulty-btn" />
+        </VBox>
+        
+        <Label text="Selecciona una dificultad para comenzar" style="-fx-text-fill: #6c7086;" />
     </VBox>
-    
-    <Label text="Selecciona una dificultad para comenzar" style="-fx-text-fill: #6c7086;" />
-</VBox>
+</StackPane>
