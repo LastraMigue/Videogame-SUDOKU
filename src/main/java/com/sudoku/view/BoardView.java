@@ -34,6 +34,15 @@ public class BoardView {
                 TextField field = new TextField();
                 field.getStyleClass().add("cell");
                 
+                // Restricción de entrada: Solo 1 dígito del 1 al 9
+                field.setTextFormatter(new javafx.scene.control.TextFormatter<>(change -> {
+                    String newText = change.getControlNewText();
+                    if (newText.matches("[1-9]?")) {
+                        return change;
+                    }
+                    return null;
+                }));
+                
                 // Aplicar bordes gruesos para cajas 3x3
                 if (col == 2 || col == 5) field.getStyleClass().add("thick-right");
                 if (row == 2 || row == 5) field.getStyleClass().add("thick-bottom");
@@ -64,10 +73,10 @@ public class BoardView {
                 field.setText(cell.isEmpty() ? "" : String.valueOf(cell.getValue()));
                 field.setEditable(!cell.isFixed());
                 
+                field.getStyleClass().removeAll("cell-fixed", "cell-correct", "cell-incorrect");
+                
                 if (cell.isFixed()) {
                     field.getStyleClass().add("cell-fixed");
-                } else {
-                    field.getStyleClass().remove("cell-fixed");
                 }
                 
                 updateErrorStyle(r, c, cell.hasError());
@@ -103,10 +112,49 @@ public class BoardView {
                 final int row = r;
                 final int col = c;
                 textFields[r][c].textProperty().addListener((obs, old, val) -> {
-                    if (!val.isEmpty()) {
-                        handler.accept(row, col);
-                    }
+                    handler.accept(row, col);
                 });
+            }
+        }
+    }
+
+    /**
+     * Highlights the row, column, and 3x3 box of the selected cell.
+     * @param row row index
+     * @param col column index
+     */
+    public void highlightGroup(int row, int col) {
+        clearHighlights();
+        
+        // Fila y Columna
+        for (int i = 0; i < Board.SIZE; i++) {
+            if (!textFields[row][i].getStyleClass().contains("cell-highlight")) {
+                textFields[row][i].getStyleClass().add("cell-highlight");
+            }
+            if (!textFields[i][col].getStyleClass().contains("cell-highlight")) {
+                textFields[i][col].getStyleClass().add("cell-highlight");
+            }
+        }
+        
+        // Bloque 3x3
+        int startRow = (row / 3) * 3;
+        int startCol = (col / 3) * 3;
+        for (int r = startRow; r < startRow + 3; r++) {
+            for (int c = startCol; c < startCol + 3; c++) {
+                if (!textFields[r][c].getStyleClass().contains("cell-highlight")) {
+                    textFields[r][c].getStyleClass().add("cell-highlight");
+                }
+            }
+        }
+    }
+
+    /**
+     * Clears all temporary cell highlights.
+     */
+    public void clearHighlights() {
+        for (int r = 0; r < Board.SIZE; r++) {
+            for (int c = 0; c < Board.SIZE; c++) {
+                textFields[r][c].getStyleClass().remove("cell-highlight");
             }
         }
     }

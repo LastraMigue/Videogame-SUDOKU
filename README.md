@@ -1,128 +1,93 @@
-# Sudoku JavaFX
+# 🧩 SUDOKU — Premium Edition
 
-> Juego de Sudoku completo construido con JavaFX 21 y Maven, siguiendo una arquitectura MVC estricta.
+![Sudoku Banner](https://img.shields.io/badge/Java-21-orange?style=for-the-badge&logo=java)
+![JavaFX](https://img.shields.io/badge/JavaFX-21-blue?style=for-the-badge&logo=java)
+![Maven](https://img.shields.io/badge/Maven-3.9-C71A36?style=for-the-badge&logo=apache-maven)
 
-[![CI/CD](https://github.com/LastraMigue/Videogame-SUDOKU/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/LastraMigue/Videogame-SUDOKU/actions)
-[![Cobertura](https://img.shields.io/badge/cobertura-80%25+-brightgreen)]()
-[![Java](https://img.shields.io/badge/Java-21-orange)](https://openjdk.org/projects/jdk/21/)
-[![JavaFX](https://img.shields.io/badge/JavaFX-21.0.2-blue)](https://openjfx.io/)
-[![Maven](https://img.shields.io/badge/Maven-3.9+-red)](https://maven.apache.org/)
+Una experiencia de Sudoku definitiva, diseñada con una estética moderna, sonidos inmersivos y desafíos para todos los niveles, desde principiantes hasta expertos en el modo **Hardcore**.
 
 ---
 
-## Características
+## ✨ Características Principales
 
-- 🎮 Tres niveles de dificultad: **Fácil**, **Medio**, **Difícil**
-- ✅ Validación en tiempo real con resaltado de errores
-- 💡 Sistema de pistas — revela una celda correcta cada vez
-- 🤖 Resolvedor automático mediante backtracking recursivo
-- 🎨 Interfaz moderna en JavaFX con estilos CSS
-- ⏱️ Temporizador de partida
-- 🔢 Generador de puzzles con solución única garantizada
-
----
-
-## Requisitos
-
-| Herramienta | Versión |
-|-------------|---------|
-| Java        | 21+     |
-| Maven       | 3.9+    |
-| JavaFX      | 21.0.2 (gestionado por Maven) |
+- 🎨 **Estética Premium**: Interfaz en modo oscuro con efectos de cristal y animaciones suaves.
+- 🎵 **Sonido Dinámico**: Música ambiental y efectos de clic para una mayor inmersión.
+- ⚙️ **Control Total**: Ajusta el volumen o reinicia la partida en cualquier momento.
+- 🔴 **Detección de Conflictos**: Ayuda visual que resalta errores en tiempo real (desactivable).
+- 🏆 **Modo Hardcore**: Un desafío real sin pistas, sin resaltado de errores y con el nivel más alto de dificultad.
+- 💡 **Sistema de Pistas Inteligente**: Revela una casilla estratégica (máximo 3 por partida).
+- ✅ **Validación Final**: Comprueba tu tablero con un código de colores (Verde para aciertos, Rojo para fallos).
 
 ---
 
-## Ejecución
+## 🚀 Instalación y Ejecución
 
-```bash
-mvn javafx:run
-```
+### Requisitos Previos
+- **JDK 21** o superior.
+- **Maven 3.8+**.
 
-## Tests
-
-```bash
-mvn test
-```
-
-## Informe de Cobertura
-
-```bash
-mvn test jacoco:report
-# Informe generado en: target/site/jacoco/index.html
-```
-
-## Generar Javadoc
-
-```bash
-mvn javadoc:javadoc
-# Documentación generada en: docs/javadoc/index.html
-```
+### Pasos
+1. Clona el repositorio:
+   ```bash
+   git clone https://github.com/LastraMigue/Videogame-SUDOKU.git
+   ```
+2. Entra en la carpeta:
+   ```bash
+   cd Videogame-SUDOKU
+   ```
+3. Ejecuta el juego:
+   ```bash
+   mvn javafx:run
+   ```
 
 ---
 
-## Arquitectura
+---
 
-El proyecto sigue el patrón **MVC (Modelo-Vista-Controlador)**:
+## 🛠️ Arquitectura
+
+El proyecto sigue el patrón **MVC (Modelo-Vista-Controlador)** desacoplado:
 
 | Capa         | Paquete                  | Responsabilidad                       |
 |--------------|--------------------------|---------------------------------------|
 | Modelo       | `com.sudoku.model`       | `Board`, `Cell`, `SudokuValidator`    |
-| Servicio     | `com.sudoku.service`     | `SudokuGenerator`, `SudokuSolver`     |
-| Controlador  | `com.sudoku.controller`  | `GameController`, `MenuController`    |
+| Servicio     | `com.sudoku.service`     | `Generator`, `Solver`, `MusicManager` |
+| Controlador  | `com.sudoku.controller`  | `Game`, `Menu`, `Settings`, `Result`  |
 | Vista        | `com.sudoku.view`        | `BoardView` (renderizado JavaFX)      |
 
 ---
 
-## Estructura del Proyecto
+## 📂 Estructura del Proyecto
 
 ```
 sudoku-javafx/
-├── .github/workflows/ci-cd.yml   ← Pipeline CI/CD con GitHub Actions
-├── docs/                          ← GitHub Pages (Javadoc + diagramas UML)
+├── docs/                          ← Documentación (Javadoc, DESIGN.md, CHANGELOG.md)
 ├── src/
 │   ├── main/java/com/sudoku/
 │   │   ├── Main.java
-│   │   ├── model/                 ← Board, Cell, SudokuValidator
-│   │   ├── service/               ← SudokuGenerator, SudokuSolver
-│   │   ├── controller/            ← GameController, MenuController
-│   │   └── view/                  ← BoardView
-│   ├── main/resources/            ← FXML + CSS
-│   └── test/java/com/sudoku/      ← Tests JUnit 5
+│   │   ├── model/                 ← Lógica de datos del Sudoku
+│   │   ├── service/               ← Algoritmos y gestión de música
+│   │   ├── controller/            ← Controladores de escenas y overlays
+│   │   └── view/                  ← Lógica de renderizado gráfico
+│   ├── main/resources/
+│   │   ├── com/sudoku/            ← Archivos FXML (Layouts)
+│   │   ├── styles/                ← Hojas de estilo CSS
+│   │   ├── music/                 ← Banda sonora y efectos (MP3)
+│   │   └── images/                ← Icono de la aplicación
+│   └── test/java/com/sudoku/      ← Tests unitarios con JUnit 5
 ├── README.md
-├── CHANGELOG.md
 └── pom.xml
 ```
 
 ---
 
-## Documentación
+## 📖 Documentación
 
-- 📄 [GitHub Pages — Javadoc + Diagramas](https://lastramigue.github.io/Videogame-SUDOKU/)
-- 📊 [Diagramas UML](docs/uml.md)
-- 📝 [Historial de cambios](CHANGELOG.md)
-
----
-
-## Estrategia de Ramas (GitFlow)
-
-```
-main          ← Solo releases estables. PROTEGIDA. Solo merge vía PR.
-develop       ← Base de integración continua.
-feature/*     ← Features individuales que se integran en develop.
-release/*     ← Ramas de preparación de versión.
-hotfix/*      ← Correcciones urgentes desde main.
-```
+Puedes encontrar más detalles sobre el diseño técnico en la carpeta `docs/`:
+- [Guía de Diseño (DESIGN.md)](./docs/DESIGN.md)
+- [Historial de Cambios (CHANGELOG.md)](./docs/CHANGELOG.md)
 
 ---
 
-## Convención de Commits
-
-Todos los commits siguen [Conventional Commits](https://www.conventionalcommits.org/):
-
-```
-feat(board): add Cell class with immutability support
-fix(validator): correct row validation for edge cases
-test(solver): add backtracking unit tests
-docs(uml): update class diagram
-ci: add JaCoCo to GitHub Actions workflow
-```
+## ✒️ Autor
+**LastraMigue** — *Desarrollador Principal*

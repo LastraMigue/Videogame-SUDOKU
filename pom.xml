@@ -7,7 +7,7 @@
 
     <groupId>com.sudoku</groupId>
     <artifactId>sudoku-javafx</artifactId>
-    <version>1.0.0</version>
+    <version>2.0.0</version>
     <packaging>jar</packaging>
 
     <name>Sudoku JavaFX</name>
@@ -34,6 +34,13 @@
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-fxml</artifactId>
+            <version>${javafx.version}</version>
+        </dependency>
+
+        <!-- JavaFX Media -->
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-media</artifactId>
             <version>${javafx.version}</version>
         </dependency>
 
@@ -85,8 +92,10 @@
                 <configuration>
                     <excludes>
                         <exclude>com/sudoku/Main.class</exclude>
+                        <exclude>com/sudoku/Launcher.class</exclude>
                         <exclude>com/sudoku/controller/*</exclude>
                         <exclude>com/sudoku/view/*</exclude>
+                        <exclude>com/sudoku/service/MusicManager.class</exclude>
                     </excludes>
                     <rules>
                         <rule>
@@ -136,10 +145,30 @@
                     <docencoding>UTF-8</docencoding>
                     <detectJavaApiLink>false</detectJavaApiLink>
                     <detectLinks>false</detectLinks>
-                    <additionalOptions>
-                        <additionalOption>-Xdoclint:none</additionalOption>
-                    </additionalOptions>
                 </configuration>
+            </plugin>
+
+            <!-- Maven Shade Plugin — Create Executable JAR -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.5.2</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <transformers>
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                    <mainClass>com.sudoku.Launcher</mainClass>
+                                </transformer>
+                            </transformers>
+                            <createDependencyReducedPom>false</createDependencyReducedPom>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

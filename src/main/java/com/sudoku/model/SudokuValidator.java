@@ -1,5 +1,8 @@
 package com.sudoku.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Provides all validation logic for a Sudoku board.
  *
@@ -43,8 +46,8 @@ public class SudokuValidator {
      *         violates none of the three Sudoku constraints
      */
     public boolean isValidPlacement(Board board, int row, int col, int value) {
-        return isRowValid(board, row, value)
-                && isColumnValid(board, col, value)
+        return isRowValid(board, row, col, value)
+                && isColumnValid(board, row, col, value)
                 && isBoxValid(board, row, col, value);
     }
 
@@ -56,9 +59,10 @@ public class SudokuValidator {
      * @param value the value to search for (1–9)
      * @return {@code true} if {@code value} does <em>not</em> appear in the row
      */
-    public boolean isRowValid(Board board, int row, int value) {
-        for (int col = 0; col < Board.SIZE; col++) {
-            if (board.getValue(row, col) == value) {
+    public boolean isRowValid(Board board, int row, int col, int value) {
+        if (value == 0) return true;
+        for (int c = 0; c < Board.SIZE; c++) {
+            if (c != col && board.getValue(row, c) == value) {
                 return false;
             }
         }
@@ -73,9 +77,10 @@ public class SudokuValidator {
      * @param value the value to search for (1–9)
      * @return {@code true} if {@code value} does <em>not</em> appear in the column
      */
-    public boolean isColumnValid(Board board, int col, int value) {
-        for (int row = 0; row < Board.SIZE; row++) {
-            if (board.getValue(row, col) == value) {
+    public boolean isColumnValid(Board board, int row, int col, int value) {
+        if (value == 0) return true;
+        for (int r = 0; r < Board.SIZE; r++) {
+            if (r != row && board.getValue(r, col) == value) {
                 return false;
             }
         }
@@ -93,16 +98,57 @@ public class SudokuValidator {
      * @return {@code true} if {@code value} does <em>not</em> appear in the box
      */
     public boolean isBoxValid(Board board, int row, int col, int value) {
+        if (value == 0) return true;
         int startRow = (row / Board.BOX_SIZE) * Board.BOX_SIZE;
         int startCol = (col / Board.BOX_SIZE) * Board.BOX_SIZE;
         for (int r = startRow; r < startRow + Board.BOX_SIZE; r++) {
             for (int c = startCol; c < startCol + Board.BOX_SIZE; c++) {
-                if (board.getValue(r, c) == value) {
+                if ((r != row || c != col) && board.getValue(r, c) == value) {
                     return false;
                 }
             }
         }
         return true;
+    }
+
+    /**
+     * Finds all cells that conflict with the placement of {@code value} at {@code (row, col)}.
+     *
+     * @param board the current board state
+     * @param row   the target row
+     * @param col   the target column
+     * @param value the value to check
+     * @return a list of row/column pairs [r, c] representing conflicting cells
+     */
+    public List<int[]> getConflictingCells(Board board, int row, int col, int value) {
+        List<int[]> conflicts = new ArrayList<>();
+        if (value == 0) return conflicts;
+
+        // Row conflicts
+        for (int c = 0; c < Board.SIZE; c++) {
+            if (c != col && board.getValue(row, c) == value) {
+                conflicts.add(new int[]{row, c});
+            }
+        }
+
+        // Col conflicts
+        for (int r = 0; r < Board.SIZE; r++) {
+            if (r != row && board.getValue(r, col) == value) {
+                conflicts.add(new int[]{r, col});
+            }
+        }
+
+        // Box conflicts
+        int startRow = (row / Board.BOX_SIZE) * Board.BOX_SIZE;
+        int startCol = (col / Board.BOX_SIZE) * Board.BOX_SIZE;
+        for (int r = startRow; r < startRow + Board.BOX_SIZE; r++) {
+            for (int c = startCol; c < startCol + Board.BOX_SIZE; c++) {
+                if ((r != row || c != col) && board.getValue(r, c) == value) {
+                    conflicts.add(new int[]{r, c});
+                }
+            }
+        }
+        return conflicts;
     }
 
     // -------------------------------------------------------------------------

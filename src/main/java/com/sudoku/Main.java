@@ -21,12 +21,24 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("menu-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 600, 700);
+        // Iniciar msica
+        com.sudoku.service.MusicManager.getInstance();
         
-        stage.setTitle("Sudoku Premium");
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("menu-view.fxml"));
+        Scene scene = new Scene(fxmlLoader.load());
+        
+        stage.setTitle("SUDOKU");
+        
+        // Cargar icono si existe
+        try {
+            stage.getIcons().add(new Image(Main.class.getResourceAsStream("/images/icon.png")));
+        } catch (Exception e) {
+            // Si no hay icono, se usa el de por defecto del sistema
+        }
+
         stage.setScene(scene);
         stage.setResizable(false);
+        stage.sizeToScene();
         stage.show();
     }
 

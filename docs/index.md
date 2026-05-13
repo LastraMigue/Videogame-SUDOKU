@@ -1,22 +1,28 @@
-# Documentación Técnica — Sudoku JavaFX
+# Documentación Técnica — SUDOKU
 
-Bienvenido a la documentación técnica del proyecto Sudoku JavaFX. Este sitio se genera automáticamente mediante **GitHub Actions** en cada integración a la rama `develop`.
+Bienvenido a la documentación técnica oficial de **SUDOKU**. Este sitio se genera automáticamente mediante **GitHub Actions**.
 
 ## Enlaces Rápidos
 
 - 📚 [Referencia API Javadoc](./javadoc/index.html)
-- 📊 [Reporte de Cobertura de Código](./coverage/index.html)
-- 📐 [Diagramas UML (Mermaid)](./uml.md)
-- 📝 [Historial de Cambios](../CHANGELOG.md)
+- 📊 [Reporte de Cobertura (JaCoCo)](./coverage/index.html)
+- 📐 [Diseño y Arquitectura (UML)](./DESIGN.md)
+- 📝 [Historial de Cambios (Changelog)](./CHANGELOG.md)
 
 ## Resumen del Proyecto
 
-Este proyecto implementa un juego de Sudoku completo utilizando **Java 21**, **JavaFX 21** y **Maven**. La arquitectura sigue el patrón MVC para asegurar una separación clara entre la lógica de negocio, la interfaz de usuario y los servicios de soporte.
+Este proyecto es una implementación premium de Sudoku construida con **Java 21** y **JavaFX 21**. Se enfoca en una experiencia de usuario moderna con un núcleo técnico robusto.
 
-## Pipeline CI/CD
+### Características Técnicas
+- **Validación en Tiempo Real**: Algoritmo optimizado para detección de conflictos.
+- **Generación Procedural**: Creación de tableros con solución única.
+- **Audio Multicanal**: Gestión de música y efectos mediante el patrón Singleton.
+- **UI Responsiva**: Layouts dinámicos y estilos CSS personalizados.
 
-Cada push a la rama `develop` dispara:
-1. **Validación de Tests**: Ejecución de la suite JUnit 5.
-2. **Análisis de Cobertura**: Verificación de que al menos el 80% del código está probado.
-3. **Generación de Javadoc**: Extracción de documentación técnica del código.
-4. **Despliegue automático**: Actualización de este sitio web.
+## Pipeline de Integración Continua
+
+Cada cambio en la rama `develop` ejecuta:
+1. **Compilación**: Verificación de integridad del código.
+2. **Tests**: Ejecución de JUnit 5.
+3. **Calidad**: Análisis de cobertura (mínimo 80%).
+4. **Docs**: Generación de este portal de documentación.

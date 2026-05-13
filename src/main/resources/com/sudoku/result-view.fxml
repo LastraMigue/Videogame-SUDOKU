@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<StackPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="com.sudoku.controller.ResultController"
+           styleClass="settings-overlay">
+    
+    <VBox fx:id="resultCard" styleClass="settings-card" alignment="CENTER" maxWidth="400">
+        <Label fx:id="statusLabel" text="¡VICTORIA!" styleClass="settings-title" />
+        
+        <VBox spacing="5" alignment="CENTER">
+            <Label text="Tiempo Total" styleClass="settings-label" opacity="0.7" />
+            <Label fx:id="timeLabel" text="00:00" style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: white;" />
+        </VBox>
+        
+        <Label fx:id="messageLabel" text="Has completado el Sudoku correctamente." 
+               styleClass="settings-label" textAlignment="CENTER" wrapText="true" />
+        
+        <Separator opacity="0.2" />
+        
+        <HBox spacing="15" alignment="CENTER">
+            <Button text="NUEVO JUEGO" onAction="#handleNewGame" prefWidth="150" />
+            <Button text="MENÚ" onAction="#handleMenu" prefWidth="150" styleClass="btn-secondary" />
+        </HBox>
+    </VBox>
+</StackPane>
