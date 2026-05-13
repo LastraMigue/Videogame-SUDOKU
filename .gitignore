@@ -1,3 +1,11 @@
+# ==============================================
+# INTERNAL GUIDE — never tracked in any branch
+# ==============================================
+GUIA_SUDOKU_SOBRESALIENTE.md
+
+# ==============================================
+# Maven
+# ==============================================
 target/
 pom.xml.tag
 pom.xml.releaseBackup
@@ -7,11 +15,50 @@ release.properties
 dependency-reduced-pom.xml
 buildNumber.properties
 .mvn/timing.properties
-# https://maven.apache.org/tools/wrapper/#Usage_with_or_without_Binary_JAR
 .mvn/wrapper/maven-wrapper.jar
 
-# Eclipse m2e generated files
-# Eclipse Core
+# ==============================================
+# Java
+# ==============================================
+*.class
+*.jar
+*.war
+*.ear
+*.nar
+hs_err_pid*
+replay_pid*
+
+# ==============================================
+# IntelliJ IDEA
+# ==============================================
+.idea/
+*.iws
+*.iml
+*.ipr
+out/
+
+# ==============================================
+# Eclipse
+# ==============================================
 .project
-# JDT-specific (Eclipse Java Development Tools)
 .classpath
+.settings/
+bin/
+
+# ==============================================
+# VS Code
+# ==============================================
+.vscode/
+
+# ==============================================
+# OS files
+# ==============================================
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ==============================================
+# Logs
+# ==============================================
+*.log
+logs/
