@@ -2,6 +2,7 @@ package com.sudoku.controller;
 
 import com.sudoku.Main;
 import com.sudoku.model.Board;
+import com.sudoku.service.MusicManager;
 import java.util.ArrayList;
 import com.sudoku.model.Difficulty;
 import com.sudoku.model.SudokuValidator;
@@ -99,17 +100,8 @@ public class GameController {
         boardView.setOnInputHandler((row, col) -> {
             TextField field = boardView.getTextFields()[row][col];
             String text = field.getText();
-            
-            if (text.isEmpty()) {
-                handleInput(row, col, 0);
-            } else if (text.matches("[1-9]")) {
-                int value = Integer.parseInt(text);
-                handleInput(row, col, value);
-            } else {
-                // Evitar bucles infinitos: solo limpiar si no est ya vaco
-                javafx.application.Platform.runLater(() -> field.setText(""));
-                handleInput(row, col, 0);
-            }
+            int value = text.isEmpty() ? 0 : Integer.parseInt(text);
+            handleInput(row, col, value);
         });
 
         // Manejadores de foco para resaltar fila/columna/bloque en modo ayuda
@@ -180,6 +172,7 @@ public class GameController {
 
     @FXML
     private void handleToggleHelp() {
+        MusicManager.getInstance().playClickSound();
         this.helpMode = !this.helpMode;
         updateStatusLabels();
         if (helpMode) {
@@ -197,6 +190,7 @@ public class GameController {
 
     @FXML
     private void handleOpenSettings() throws IOException {
+        MusicManager.getInstance().playClickSound();
         FXMLLoader loader = new FXMLLoader(Main.class.getResource("settings-view.fxml"));
         StackPane settingsOverlay = loader.load();
         
@@ -226,6 +220,7 @@ public class GameController {
 
     @FXML
     private void handleHint() {
+        MusicManager.getInstance().playClickSound();
         if (hintsRemaining <= 0) return;
 
         Board solution = new Board(board.toIntArray());
@@ -261,6 +256,7 @@ public class GameController {
 
     @FXML
     private void handleSolve() {
+        MusicManager.getInstance().playClickSound();
         isAutoFilling = true;
         int[][] onlyFixed = new int[Board.SIZE][Board.SIZE];
         for(int r=0; r<Board.SIZE; r++) {
@@ -327,12 +323,14 @@ public class GameController {
 
     @FXML
     public void handleReset() {
+        MusicManager.getInstance().playClickSound();
         initGame(currentDifficulty);
         secondsElapsed = 0;
     }
 
     @FXML
     public void handleBackToMenu(ActionEvent event) throws IOException {
+        MusicManager.getInstance().playClickSound();
         stopTimer();
         
         FXMLLoader loader = new FXMLLoader(Main.class.getResource("menu-view.fxml"));

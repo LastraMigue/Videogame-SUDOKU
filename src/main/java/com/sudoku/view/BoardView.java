@@ -34,6 +34,15 @@ public class BoardView {
                 TextField field = new TextField();
                 field.getStyleClass().add("cell");
                 
+                // Restricción de entrada: Solo 1 dígito del 1 al 9
+                field.setTextFormatter(new javafx.scene.control.TextFormatter<>(change -> {
+                    String newText = change.getControlNewText();
+                    if (newText.matches("[1-9]?")) {
+                        return change;
+                    }
+                    return null;
+                }));
+                
                 // Aplicar bordes gruesos para cajas 3x3
                 if (col == 2 || col == 5) field.getStyleClass().add("thick-right");
                 if (row == 2 || row == 5) field.getStyleClass().add("thick-bottom");

@@ -2,6 +2,7 @@ package com.sudoku.service;
 
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.AudioClip;
 import java.net.URL;
 
 /**
@@ -10,6 +11,7 @@ import java.net.URL;
 public class MusicManager {
     private static MusicManager instance;
     private MediaPlayer mediaPlayer;
+    private AudioClip clickSound;
     private double volume = 0.5;
 
     private MusicManager() {
@@ -21,6 +23,11 @@ public class MusicManager {
                 mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
                 mediaPlayer.setVolume(volume);
                 mediaPlayer.play();
+            }
+
+            URL clickResource = getClass().getResource("/music/mouse_click.mp3");
+            if (clickResource != null) {
+                clickSound = new AudioClip(clickResource.toExternalForm());
             }
         } catch (Exception e) {
             System.err.println("Could not load music: " + e.getMessage());
@@ -51,5 +58,11 @@ public class MusicManager {
 
     public void pause() {
         if (mediaPlayer != null) mediaPlayer.pause();
+    }
+
+    public void playClickSound() {
+        if (clickSound != null) {
+            clickSound.play(volume);
+        }
     }
 }

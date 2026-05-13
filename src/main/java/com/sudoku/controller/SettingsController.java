@@ -30,6 +30,7 @@ public class SettingsController {
 
     @FXML
     private void handleResume() {
+        MusicManager.getInstance().playClickSound();
         if (parentContainer != null && self != null) {
             parentContainer.getChildren().remove(self);
         }

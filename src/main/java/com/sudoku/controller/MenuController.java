@@ -24,6 +24,7 @@ public class MenuController {
 
     @FXML
     private void handleOpenSettings() throws IOException {
+        com.sudoku.service.MusicManager.getInstance().playClickSound();
         FXMLLoader loader = new FXMLLoader(Main.class.getResource("settings-view.fxml"));
         StackPane settingsOverlay = loader.load();
         
@@ -35,21 +36,25 @@ public class MenuController {
 
     @FXML
     private void handleEasyMode(ActionEvent event) throws IOException {
+        com.sudoku.service.MusicManager.getInstance().playClickSound();
         startGame(event, Difficulty.EASY);
     }
 
     @FXML
     private void handleMediumMode(ActionEvent event) throws IOException {
+        com.sudoku.service.MusicManager.getInstance().playClickSound();
         startGame(event, Difficulty.MEDIUM);
     }
 
     @FXML
     private void handleHardMode(ActionEvent event) throws IOException {
+        com.sudoku.service.MusicManager.getInstance().playClickSound();
         startGame(event, Difficulty.HARD);
     }
 
     @FXML
     private void handleHardcoreMode(ActionEvent event) throws IOException {
+        com.sudoku.service.MusicManager.getInstance().playClickSound();
         startGame(event, Difficulty.HARDCORE);
     }
 

@@ -31,12 +31,14 @@ public class ResultController {
 
     @FXML
     private void handleNewGame() {
+        com.sudoku.service.MusicManager.getInstance().playClickSound();
         gameController.handleReset();
         close();
     }
 
     @FXML
     private void handleMenu() throws IOException {
+        com.sudoku.service.MusicManager.getInstance().playClickSound();
         gameController.handleBackToMenu(null);
     }
 
