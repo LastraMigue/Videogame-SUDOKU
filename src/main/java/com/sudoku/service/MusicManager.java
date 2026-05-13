@@ -34,6 +34,10 @@ public class MusicManager {
         }
     }
 
+    /**
+     * Retrieves the singleton instance of the MusicManager.
+     * @return the music manager instance
+     */
     public static MusicManager getInstance() {
         if (instance == null) {
             instance = new MusicManager();
@@ -41,6 +45,10 @@ public class MusicManager {
         return instance;
     }
 
+    /**
+     * Sets the volume for both background music and sound effects.
+     * @param volume a value between 0.0 and 1.0
+     */
     public void setVolume(double volume) {
         this.volume = volume;
         if (mediaPlayer != null) {
@@ -48,18 +56,31 @@ public class MusicManager {
         }
     }
 
+    /**
+     * Returns the current volume level.
+     * @return current volume (0.0 to 1.0)
+     */
     public double getVolume() {
         return volume;
     }
 
+    /**
+     * Starts or resumes background music playback.
+     */
     public void play() {
         if (mediaPlayer != null) mediaPlayer.play();
     }
 
+    /**
+     * Pauses background music playback.
+     */
     public void pause() {
         if (mediaPlayer != null) mediaPlayer.pause();
     }
 
+    /**
+     * Plays the mouse click sound effect at the current volume level.
+     */
     public void playClickSound() {
         if (clickSound != null) {
             clickSound.play(volume);
